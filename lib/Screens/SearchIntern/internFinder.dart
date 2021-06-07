@@ -15,11 +15,12 @@ class InternFinder extends StatelessWidget {
                 child: searchScreen()
             )
         );
-  } }
+  }
+}
+
+
 class searchScreen extends StatefulWidget {
-
   searchScreenState createState() => searchScreenState();
-
 }
 
 class searchScreenState extends State<searchScreen>{
@@ -46,7 +47,6 @@ class searchScreenState extends State<searchScreen>{
         context,
         MaterialPageRoute(
             builder: (context) => resultScreen(
-
                   schoolHolder : schoolName.text,
                   departmentHolder : department.text,
                   gpaHolder : minGPA.text,
@@ -55,7 +55,8 @@ class searchScreenState extends State<searchScreen>{
                   experienceHolder : minNumOfExperience.text,
                   skillHolder : mainSkill.text,
                   languageHolder : mainLanguage.text
-            ))
+            )
+        )
     );
   }
 
@@ -65,7 +66,6 @@ class searchScreenState extends State<searchScreen>{
         body: Center(
           child: Column(
             children: <Widget>[
-
               Row(
                 children: <Widget> [Container(
 
@@ -74,8 +74,7 @@ class searchScreenState extends State<searchScreen>{
                     child: TextField(
                       controller: schoolName,
                       autocorrect: true,
-                      decoration: InputDecoration(hintText: 'School Name'
-                      ),
+                      decoration: InputDecoration(hintText: 'School Name'),
                       enabled: schoolSearch,
                     )
                 ),
@@ -101,7 +100,8 @@ class searchScreenState extends State<searchScreen>{
               ),
 
               Row(
-                  children: <Widget> [Container(
+                  children: <Widget> [
+                    Container(
                       width: 315,
                       padding: EdgeInsets.all(10.0),
                       child: TextField(
@@ -132,7 +132,8 @@ class searchScreenState extends State<searchScreen>{
                   ]
               ),
               Row(
-                  children: <Widget> [Container(
+                  children: <Widget> [
+                    Container(
                       width: 315,
                       padding: EdgeInsets.all(10.0),
                       child: TextField(
@@ -191,7 +192,6 @@ class searchScreenState extends State<searchScreen>{
               ),
 
               RaisedButton(
-
                 onPressed:()=> getItemAndNavigate(context),
                 color: kPrimaryColor,
                 textColor: Colors.white,

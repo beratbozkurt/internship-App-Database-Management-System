@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/Profiles/student_profile.dart';
+import 'package:flutter_auth/Screens/Profiles/company_profile.dart';
 
 class resultScreen extends StatelessWidget {
   final schoolHolder;
@@ -25,6 +27,24 @@ class resultScreen extends StatelessWidget {
 
   goBack(BuildContext context) {
     Navigator.pop(context);
+  }
+
+  getItemAndNavigate(BuildContext context){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => StudentProfile()
+        )
+    );
+  }
+
+  navigateToCompany(BuildContext context){
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CompanyProfile()
+      )
+    );
   }
 
   var candiates = [
@@ -64,22 +84,26 @@ class resultScreen extends StatelessWidget {
                   child: Text(candidatesData[index],textAlign: TextAlign.left),
                 ),
                 Container(
-
                     child: Row(
                   children: <Widget>[
                     FlatButton(
                       color: Colors.purple[100],
                       child: Text("Student Profile"),
-                      onPressed: () {},
+                      onPressed: () {
+                        getItemAndNavigate(context);
+                      },
                     ),
                     FlatButton(
                       color: Colors.purple[200],
                       child: Text("Send An Offer"),
-                      onPressed: () {},
+                      onPressed: () {
+                        navigateToCompany(context);
+                      },
                     ),
 
                   ],
-                ))
+                )
+                )
               ],
             ),
           );
