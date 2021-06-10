@@ -47,11 +47,11 @@ class searchScreenState extends State<searchScreen>{
         context,
         MaterialPageRoute(
             builder: (context) => resultScreen(
-                  schoolHolder : schoolName.text,
-                  departmentHolder : department.text,
-                  gpaHolder : minGPA.text,
-                  gradeHolder : minGrade.text,
-                  projectHolder : minNumOfProjects.text,
+                  nameHolder : schoolName.text,
+                  surnameHolder : department.text,
+                  ageHolder : minGPA.text,
+                  genderHolder : minGrade.text,
+                  offerHolder : minNumOfProjects.text,
                   experienceHolder : minNumOfExperience.text,
                   skillHolder : mainSkill.text,
                   languageHolder : mainLanguage.text

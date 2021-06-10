@@ -4,22 +4,22 @@ import 'package:flutter_auth/Screens/Profiles/student_profile.dart';
 import 'package:flutter_auth/Screens/Profiles/company_profile.dart';
 
 class resultScreen extends StatelessWidget {
-  final schoolHolder;
-  final departmentHolder;
-  final gpaHolder;
-  final gradeHolder;
-  final projectHolder;
+  final nameHolder;
+  final surnameHolder;
+  final ageHolder;
+  final genderHolder;
+  final offerHolder;
   final experienceHolder;
   final skillHolder;
   final languageHolder;
 
   resultScreen({
     Key key,
-    @required this.schoolHolder,
-    this.departmentHolder,
-    this.gpaHolder,
-    this.gradeHolder,
-    this.projectHolder,
+    @required this.nameHolder,
+    this.surnameHolder,
+    this.ageHolder,
+    this.genderHolder,
+    this.offerHolder,
     this.experienceHolder,
     this.skillHolder,
     this.languageHolder,

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/Login/login_screen.dart';
 import 'package:flutter_auth/Screens/Signup/components/background.dart';
+import 'package:flutter_auth/Screens/UserInfos/company_info.dart';
+import 'package:flutter_auth/Screens/UserInfos/student_info.dart';
 import 'package:flutter_auth/components/already_have_an_account_acheck.dart';
 import 'package:flutter_auth/components/rounded_button.dart';
 import 'package:flutter_auth/components/rounded_input_field.dart';
 import 'package:flutter_auth/components/rounded_password_field.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:http/http.dart' as http;
 
 class Body extends StatefulWidget {
   @override
@@ -16,7 +19,20 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   bool company = false;
   bool student = false;
+  String email;
+  String password;
 
+  Future signUp() async{
+
+    final response = await http.post(Uri.parse('http://192.168.1.106/database/signup.php'),body: {
+      "email": email,
+      "password":password,
+      "user_type":company ? "company":"student"
+    } );
+    print(company ? "company":"student");
+    print(response.body);
+
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -36,10 +52,14 @@ class _BodyState extends State<Body> {
             ),
             RoundedInputField(
               hintText: "Your Email",
-              onChanged: (value) {},
+              onChanged: (value) {
+                email = value;
+              },
             ),
             RoundedPasswordField(
-              onChanged: (value) {},
+              onChanged: (value) {
+                password = value;
+              },
             ),
            Container(
             margin: EdgeInsets.all(8),
@@ -68,8 +88,40 @@ class _BodyState extends State<Body> {
               ),
             ),
             RoundedButton(
-              text: "SIGNUP",
-              press: () {},
+              text: "CONTINUE TO SIGNUP",
+              press: () {
+                if((company && student) || (!company && !student)){
+                    print("wrong type of user");
+                }else {
+                  if (student) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return StudentInfo(
+                            email: email,
+                            password: password,
+                          );
+                        },
+                      ),
+                    );
+                  }
+                  if (company) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return companyInfo(
+                            email: email,
+                            password: password,
+                          );
+                        },
+                      ),
+                    );
+                  }
+                  // signUp();
+                }
+              },
             ),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(
