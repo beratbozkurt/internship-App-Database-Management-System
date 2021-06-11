@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/Login/components/background.dart';
 import 'package:flutter_auth/Screens/Signup/signup_screen.dart';
@@ -6,7 +9,7 @@ import 'package:flutter_auth/components/rounded_button.dart';
 import 'package:flutter_auth/components/rounded_input_field.dart';
 import 'package:flutter_auth/components/rounded_password_field.dart';
 import 'package:flutter_auth/Screens/SearchIntern/internFinder.dart';
-import 'package:flutter_auth/Screens/homepage.dart';
+import 'package:flutter_auth/Screens/student_homepage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,17 +26,37 @@ class _BodyState extends State<Body> {
   String email;
   String password;
   bool permission;
+
   Future login() async{
+    log('TRY LOGIN');
+    final response = await http.post(
+        Uri.parse('http://192.168.43.108/database/login.php'),
+        body: {
+          "email": email,
+          "password": password
+        }
+    );
 
-    final response = await http.post(Uri.parse('http://192.168.1.106/database/login.php'),body: {
-      "email": email,
-      "password":password
-    } );
+    log(response.body);
+    log('###################');
 
-    print(response.body);
-    if(response.body== "succesfull"){
+    Map<String, dynamic> jsonString = jsonDecode(response.body);
+    print(jsonString);
+
+    if(jsonString['success'] == 1) {
+      log('Im in');
       permission = true;
-    }else {
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return InternFinder();
+          },
+        ),
+      );
+    }
+    else {
       permission= false;
     }
 

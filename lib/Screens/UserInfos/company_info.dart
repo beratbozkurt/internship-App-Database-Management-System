@@ -74,7 +74,8 @@ class searchScreenState extends State<searchScreen>{
       "email":widget.email,
       "password":widget.password,
       "contact_mail":contactMail.text
-    } );
+    }
+    );
     print(response.body);
   }
 

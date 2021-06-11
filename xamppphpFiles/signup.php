@@ -43,8 +43,8 @@ session_start();
 					$stmt->bind_result($email_check);
 					$stmt->fetch();
 					if ($stmt->num_rows >= 1){
-					echo "That Email already exists";
-					$count++;
+						echo "That Email already exists";
+						$count++;
 					}
 				}
 			}
@@ -53,7 +53,8 @@ session_start();
 		if($count==0) // if every control is okey then signup the person and add to database. In order to make more secure the system, numerous controls can be added.
 		{
 			$query = "INSERT INTO user (email,password) VALUES ( ? , ?)";
-			if ($stmt = $con->prepare($query)){
+			if ($stmt = $con->prepare($query))
+			{
 
 				$hash_pass = md5($password); // hashing password with md5 to protect 
 				$stmt->bind_param("ss",$email,$hash_pass);
@@ -74,7 +75,7 @@ session_start();
 					$query = "INSERT INTO student (student_id,name,age,gender,surname,offer_acceptance) VALUES (? , ? , ? , ?, ? ,?)";
 					if ($stmt = $con->prepare($query)){
 		
-						$stmt->bind_param("isisss",$id_copy, $name, $age, $gender,$surname,$offer_acceptance);
+						$stmt->bind_param("isisss", $id_copy, $name, $age, $gender,$surname,$offer_acceptance);
 						
 						 if($stmt->execute()){
 							echo "student";

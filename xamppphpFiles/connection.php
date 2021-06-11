@@ -6,11 +6,13 @@ $dbhost = "localhost";    ////!!!Your MySQL enterance data!!!////
 $dbuser = "root";
 $dbpass = "1798";
 
-if($con = mysqli_connect($dbhost,$dbuser,$dbpass,"database_project"))
-{
+	if($con = mysqli_connect($dbhost, $dbuser, $dbpass, "database_project"))
+	{
 
-}else{
+	}
+	else{
 
 	die("Connection Failed To Database Service!!!");
 
 	}
+?>

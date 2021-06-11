@@ -4,22 +4,6 @@ import 'package:flutter_auth/constants.dart';
 
 class CompanyProfile extends StatelessWidget {
 
-  var education = 'School Name: AGU\n\n'
-      'GPA: 2.78\n\n'
-      'Department: Computer Engineering\n\n'
-      'Grade: 2\n\n';
-
-  var experience = 'Start Date: 5 July 2054\n'
-      'End Date: 2 October 2096\n'
-      'Role: President\n\n'
-      'Description: I have worked in Apple as a president. I developed so much application.';
-
-  var project = 'Title: Durability of Steel Constructions\n'
-      'Description: We invented a concrete that is compatible '
-      'with steel constructions.\n\n'
-      'Start Date: 3 December 2071\n'
-      'End Date: 4 December 2071\n';
-
 
   @override
   Widget build(BuildContext context) {
