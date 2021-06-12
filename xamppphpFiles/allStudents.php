@@ -5,18 +5,14 @@ session_start();
 
     if($_SERVER['REQUEST_METHOD'] == "POST"){
 
-        $user_type = $_POST['user_type'];
-        $user_id = $_POST['user_id'];
-
-        if($user_type=="company"){
-        $query = "SELECT * from offer natural join student where company_id = $user_id";
+        $query = "SELECT * from student";
         $result = mysqli_query($con,$query);
         $rows = array();
+        //retrieve and print every record
         while($r = mysqli_fetch_assoc($result)){
             $rows[] = array('data' => $r);
         }
-        echo json_encode($rows);
-    }
 
+        echo json_encode($rows);
     }
 ?>

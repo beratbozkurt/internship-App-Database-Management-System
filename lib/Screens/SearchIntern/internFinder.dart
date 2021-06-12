@@ -4,6 +4,16 @@ import 'package:flutter_auth/Screens/SearchIntern/results_screen.dart';
 import 'package:flutter_auth/constants.dart';
 
 class InternFinder extends StatelessWidget {
+  final company_id;
+
+
+  InternFinder({
+    Key key,
+    @required this.company_id
+
+
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
         return Scaffold(
@@ -12,7 +22,7 @@ class InternFinder extends StatelessWidget {
                 title: Text('InternFinder')
             ),
             body: Center(
-                child: searchScreen()
+                child: searchScreen(company_id:company_id)
             )
         );
   }
@@ -20,6 +30,15 @@ class InternFinder extends StatelessWidget {
 
 
 class searchScreen extends StatefulWidget {
+  final company_id;
+
+
+  searchScreen({
+    Key key,
+    @required this.company_id
+
+
+  }) : super(key: key);
   searchScreenState createState() => searchScreenState();
 }
 
@@ -47,14 +66,11 @@ class searchScreenState extends State<searchScreen>{
         context,
         MaterialPageRoute(
             builder: (context) => resultScreen(
-                  nameHolder : schoolName.text,
-                  surnameHolder : department.text,
-                  ageHolder : minGPA.text,
-                  genderHolder : minGrade.text,
-                  offerHolder : minNumOfProjects.text,
-                  experienceHolder : minNumOfExperience.text,
-                  skillHolder : mainSkill.text,
-                  languageHolder : mainLanguage.text
+                  school : schoolSearch ? schoolName.text:"",
+                  department :departmentSearch ? department.text:"",
+                  gpa : gpaSearch ? minGPA.text: "0",
+                  grade : gradeSearch ? minGrade.text: "0",
+                  company_id: widget.company_id,
             )
         )
     );
@@ -131,7 +147,7 @@ class searchScreenState extends State<searchScreen>{
                     Checkbox(value: gradeSearch, onChanged: (bool val) => setState(() => gradeSearch = val))
                   ]
               ),
-              Row(
+              /*Row(
                   children: <Widget> [
                     Container(
                       width: 315,
@@ -190,7 +206,7 @@ class searchScreenState extends State<searchScreen>{
                     Checkbox(value: languageSearch, onChanged: (bool val) => setState(() => languageSearch = val))
                   ]
               ),
-
+*/
               RaisedButton(
                 onPressed:()=> getItemAndNavigate(context),
                 color: kPrimaryColor,

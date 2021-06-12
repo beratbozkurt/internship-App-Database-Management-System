@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/Offers/company_offers.dart';
+import 'package:flutter_auth/Screens/SearchIntern/allStudents.dart';
+import 'package:flutter_auth/Screens/SearchIntern/internFinder.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -107,6 +110,93 @@ class _CompanyProfileState extends State<CompanyProfile> {
                   ),
                 ),
               ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints.tightFor(height: 80),
+                      child: ElevatedButton(
+                        child: Text('Sent Offers'),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return CompanyOffers(
+                                    company_id:widget.companyid
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                            alignment: Alignment.center,
+                            primary: Colors.purple[300],
+                            textStyle: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Row(
+                children: <Widget>[
+                     Expanded(
+                      child: ConstrainedBox(
+                   constraints: BoxConstraints.tightFor(height: 80),
+                        child: ElevatedButton(
+                          child: Text('All  Students'),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return AllStudents(
+                                    company_id:widget.companyid
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                              alignment: Alignment.center,
+                              primary: Colors.purple[300],
+                              textStyle: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                      ),
+                    ),
+                  Expanded(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints.tightFor(height: 80),
+                      child: ElevatedButton(
+                        child: Text('Find An Intern'),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return InternFinder(
+                                    company_id:widget.companyid
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.purple[300],
+                            textStyle: TextStyle(
+                              fontSize: 20,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ),
+
+                ],
+              )
 
             ],
           ),

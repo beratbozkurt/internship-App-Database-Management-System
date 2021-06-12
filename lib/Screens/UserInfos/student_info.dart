@@ -56,20 +56,6 @@ class searchScreenState extends State<searchScreen>{
   final offer_acceptance = TextEditingController();
 
 
-  getItemAndNavigate(BuildContext context){
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => resultScreen(
-                nameHolder : name.text,
-                surnameHolder : surname.text,
-                ageHolder : age.text,
-                genderHolder : gender.text,
-                offerHolder : offer_acceptance.text,
-            )
-        )
-    );
-  }
 
   Future signUp() async{
 

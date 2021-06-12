@@ -52,18 +52,6 @@ class searchScreenState extends State<searchScreen>{
   final contactMail = TextEditingController();
   final companyDescription = TextEditingController();
 
-  getItemAndNavigate(BuildContext context){
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => resultScreen(
-              nameHolder : name.text,
-              surnameHolder : contactMail.text,
-              ageHolder : companyDescription.text,
-            )
-        )
-    );
-  }
 
   Future signUp() async{
 
