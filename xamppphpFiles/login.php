@@ -33,8 +33,6 @@
 				$stmt-> fetch();
 				///
 				if ($stmt->num_rows == 1){
-					         // If the account exists then rotate to welcome page
-					$_SESSION['email'] = $email; // Take the email in session to write in welcome page
 
 					$query = "SELECT * from user where email= '$email' and password= '$hash_pass'";
 					$result = mysqli_query($con, $query);
@@ -45,15 +43,11 @@
 					// check if the user is a student or company
 					$query = "SELECT * from company c INNER JOIN user ON user.user_id = c.company_id WHERE user.user_id = $user_id";
 					$result = mysqli_query($con, $query);
-					$rows = array();
-					while($r = mysqli_fetch_assoc($result)) 
-					{
-						$rows[] = $r;
-					}
+					$rows = mysqli_num_rows($result);
+					
 					if($rows >= 1)
 					{
 						$myObj-> success = 1;
-						$_SESSION['user_type'] = 'company';
 						$myObj-> user_id = $user_id;
 						$myObj-> user_type = "company";
 						$myJSON = json_encode($myObj);
@@ -62,7 +56,6 @@
 					else if($rows == 0)
 					{
 						$myObj-> success = 1;
-						$_SESSION['user_type'] = 'student';
 						$myObj-> user_type = 'student';
 						$myObj-> user_id = $user_id;
 						$myJSON = json_encode($myObj);
@@ -72,6 +65,7 @@
 				else
 				{
 					$myObj-> success = 0;
+					$myJSON = json_encode($myObj);
 					echo $myJSON;
 				}
 			}

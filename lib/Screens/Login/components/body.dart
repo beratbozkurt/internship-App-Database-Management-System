@@ -3,6 +3,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/Login/components/background.dart';
+import 'package:flutter_auth/Screens/Profiles/company_profile.dart';
+import 'package:flutter_auth/Screens/Profiles/student_profile.dart';
 import 'package:flutter_auth/Screens/Signup/signup_screen.dart';
 import 'package:flutter_auth/components/already_have_an_account_acheck.dart';
 import 'package:flutter_auth/components/rounded_button.dart';
@@ -30,7 +32,7 @@ class _BodyState extends State<Body> {
   Future login() async{
     log('TRY LOGIN');
     final response = await http.post(
-        Uri.parse('http://192.168.43.108/database/login.php'),
+        Uri.parse('http://192.168.1.106/database/login.php'),
         body: {
           "email": email,
           "password": password
@@ -43,21 +45,31 @@ class _BodyState extends State<Body> {
     Map<String, dynamic> jsonString = jsonDecode(response.body);
     print(jsonString);
 
-    if(jsonString['success'] == 1) {
-      log('Im in');
-      permission = true;
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return InternFinder();
-          },
-        ),
-      );
-    }
-    else {
-      permission= false;
+    if(jsonString['success'] == 1){
+      if(jsonString['user_type']=="company"){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return CompanyProfile(
+                companyid : jsonString['user_id']
+              );
+            },
+          ),
+        );
+      }
+      if(jsonString['user_type']=="student"){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return StudentProfile(
+                  studentid : jsonString['user_id'],
+              );
+            },
+          ),
+        );
+      }
     }
 
   }
@@ -95,16 +107,6 @@ class _BodyState extends State<Body> {
               text: "LOGIN",
               press: () async {
                 await login();
-               if(permission){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return InternFinder();
-                      },
-                    ),
-                  );
-                }
               },
             ),
             SizedBox(height: size.height * 0.03),

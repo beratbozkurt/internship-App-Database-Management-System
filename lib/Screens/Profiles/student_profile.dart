@@ -1,8 +1,50 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/constants.dart';
+import 'package:http/http.dart' as http;
 
-class StudentProfile extends StatelessWidget {
+class StudentProfile extends StatefulWidget {
+
+  final studentid;
+
+  StudentProfile({
+    Key key,
+    @required this.studentid,
+  }) : super(key: key);
+
+  @override
+  State<StudentProfile> createState() => _StudentProfileState();
+}
+
+class _StudentProfileState extends State<StudentProfile> {
+  Map<String, dynamic> info;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getInfo();
+
+  }
+
+  Future getInfo() async{
+    final response = await http.post(
+        Uri.parse('http://192.168.1.106/database/fetch_userInfo.php'),
+        body: {
+          "user_type": "student",
+          "user_id": widget.studentid
+        }
+    );
+
+    print(response.body);
+    setState(() {
+      info =  jsonDecode(response.body);
+    });
+    print(info);
+
+  }
 
   var education = 'School Name: AGU\n\n'
               'GPA: 2.78\n\n'
@@ -20,14 +62,13 @@ class StudentProfile extends StatelessWidget {
       'Start Date: 3 December 2071\n'
       'End Date: 4 December 2071\n';
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Student Profile"),
       ),
-      body: Container(
+      body: (info == null) ? CircularProgressIndicator():Container(
         color: kPrimaryColor,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -37,7 +78,7 @@ class StudentProfile extends StatelessWidget {
               color: kPrimaryColor,
               child: Center(
                 child: Text(
-                  'Berat Bozkurt',
+                  info["name"]+" "+info["surname"],
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 23,
