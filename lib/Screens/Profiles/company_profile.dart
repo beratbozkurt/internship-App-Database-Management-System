@@ -34,7 +34,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
 
   Future getInfo() async{
     final response = await http.post(
-        Uri.parse('http://192.168.1.106/database/fetch_userInfo.php'),
+        Uri.parse('http://$ip/database/fetch_userInfo.php'),
         body: {
           "user_type": "company",
           "user_id": widget.companyid

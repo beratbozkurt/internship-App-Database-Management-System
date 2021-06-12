@@ -6,12 +6,9 @@ import 'package:flutter_auth/constants.dart';
 class InternFinder extends StatelessWidget {
   final company_id;
 
-
   InternFinder({
     Key key,
     @required this.company_id
-
-
   }) : super(key: key);
 
   @override
@@ -83,8 +80,8 @@ class searchScreenState extends State<searchScreen>{
           child: Column(
             children: <Widget>[
               Row(
-                children: <Widget> [Container(
-
+                children: <Widget> [
+                  Container(
                     width: 315,
                     padding: EdgeInsets.all(10.0),
                     child: TextField(

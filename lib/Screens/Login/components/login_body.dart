@@ -15,16 +15,19 @@ import 'package:flutter_auth/Screens/student_homepage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 
-class Body extends StatefulWidget {
-  const Body({
+import '../../../constants.dart';
+
+class LoginBody extends StatefulWidget {
+
+  const LoginBody({
     Key key,
   }) : super(key: key);
 
   @override
-  State<Body> createState() => _BodyState();
+  State<LoginBody> createState() => _LoginBodyState();
 }
 
-class _BodyState extends State<Body> {
+class _LoginBodyState extends State<LoginBody> {
   String email;
   String password;
   bool permission;
@@ -32,7 +35,7 @@ class _BodyState extends State<Body> {
   Future login() async{
     log('TRY LOGIN');
     final response = await http.post(
-        Uri.parse('http://192.168.1.106/database/login.php'),
+        Uri.parse('http://$ip/database/login.php'),
         body: {
           "email": email,
           "password": password
@@ -45,8 +48,12 @@ class _BodyState extends State<Body> {
     Map<String, dynamic> jsonString = jsonDecode(response.body);
     print(jsonString);
 
-    if(jsonString['success'] == 1){
-      if(jsonString['user_type']=="company"){
+    if(jsonString['success'] == 1) {
+      log('Im in');
+      permission = true;
+
+      if(jsonString['user_type'] == 'company') {
+        log('user type = company');
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -58,18 +65,24 @@ class _BodyState extends State<Body> {
           ),
         );
       }
-      if(jsonString['user_type']=="student"){
+      else if(jsonString['user_type'] == 'student'){
+        log('user type = student');
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
               return StudentProfile(
-                  studentid : jsonString['user_id'],
+                  studentid: jsonString['user_id'],
               );
             },
           ),
         );
       }
+
+    }
+    else {
+      permission= false;
+
     }
 
   }

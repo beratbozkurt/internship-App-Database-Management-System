@@ -1,6 +1,11 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/Profiles/student_profile.dart';
 import 'package:flutter_auth/Screens/SearchIntern/results_screen.dart';
+import 'package:flutter_auth/Screens/student_homepage.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -41,7 +46,8 @@ class searchScreen extends StatefulWidget {
 
   searchScreen({
     Key key,
-    @required this.email,
+    @required
+    this.email,
     this.password,
 
   }) : super(key: key);
@@ -56,10 +62,10 @@ class searchScreenState extends State<searchScreen>{
   final offer_acceptance = TextEditingController();
 
 
+  Map<String, dynamic> jsonString;
 
   Future signUp() async{
-
-    final response = await http.post(Uri.parse('http://192.168.1.106/database/signup.php'),body: {
+    final response = await http.post(Uri.parse('http://$ip/database/signup.php'),body: {
       "name": name.text,
       "surname":surname.text,
       "user_type":"student",
@@ -69,8 +75,28 @@ class searchScreenState extends State<searchScreen>{
       "password":widget.password,
       "gender":gender.text
     } );
-    print(response.body);
 
+    log('###################');
+    log(response.body);
+    log('###################');
+
+    jsonString = jsonDecode(response.body);
+    log(jsonString.toString());
+
+    if(jsonString['success'] == 1){
+      // getItemAndNavigate(context);
+    }
+  }
+
+
+  getItemAndNavigate(BuildContext context){
+    log('LETS GO TO STUDENT PROFILE');
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => StudentProfile(studentid: jsonString['user_id'])
+        )
+    );
   }
 
   @override

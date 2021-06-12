@@ -6,6 +6,8 @@ import 'package:flutter_auth/Screens/Profiles/student_profile.dart';
 import 'package:flutter_auth/Screens/Profiles/company_profile.dart';
 import 'package:http/http.dart' as http;
 
+import '../../constants.dart';
+
 class CompanyOffers extends StatefulWidget {
   final company_id;
 
@@ -13,8 +15,6 @@ class CompanyOffers extends StatefulWidget {
   CompanyOffers({
     Key key,
     @required this.company_id
-
-
   }) : super(key: key);
 
 
@@ -36,7 +36,7 @@ class _CompanyOffersState extends State<CompanyOffers> {
 
   Future fetchSentOffers() async{
     final response = await http.post(
-        Uri.parse('http://192.168.1.106/database/fetch_offers.php'),body: {
+        Uri.parse('http://$ip/database/fetch_offers.php'),body: {
           "user_id":widget.company_id,
           "user_type":"company"
     }
@@ -50,7 +50,7 @@ class _CompanyOffersState extends State<CompanyOffers> {
   }
   Future deleteOffers(var student_id) async{
     final response = await http.post(
-        Uri.parse('http://192.168.1.106/database/delete_offers.php'),body: {
+        Uri.parse('http://$ip/database/delete_offers.php'),body: {
       "company_id":widget.company_id,
       "student_id":student_id
     }

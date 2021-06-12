@@ -1,9 +1,13 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/Profiles/attr_edit.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:http/http.dart' as http;
+
+import '../student_homepage.dart';
 
 class StudentProfile extends StatefulWidget {
 
@@ -26,24 +30,49 @@ class _StudentProfileState extends State<StudentProfile> {
     // TODO: implement initState
     super.initState();
     getInfo();
-
+    getEducation();
   }
 
   Future getInfo() async{
     final response = await http.post(
-        Uri.parse('http://192.168.1.106/database/fetch_userInfo.php'),
+        Uri.parse('http://$ip/database/fetch_userInfo.php'),
         body: {
           "user_type": "student",
           "user_id": widget.studentid
         }
     );
-
     print(response.body);
     setState(() {
       info =  jsonDecode(response.body);
     });
     print(info);
+  }
 
+  var education_info;
+  Future getEducation() async{
+    final response = await http.post(
+        Uri.parse('http://$ip/database/fetch_education.php'),
+        body: {
+          "student_id": widget.studentid
+        }
+    );
+    log(response.body);
+    setState(() {
+      education_info =  jsonDecode(response.body);
+    });
+    print('educationinfo = '+ education_info);
+  }
+
+  goToEdit(var student_id){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                AttrEdit(
+                  student_id: widget.studentid,
+                )
+        )
+    );
   }
 
   var education = 'School Name: AGU\n\n'
@@ -61,6 +90,10 @@ class _StudentProfileState extends State<StudentProfile> {
       'with steel constructions.\n\n'
       'Start Date: 3 December 2071\n'
       'End Date: 4 December 2071\n';
+
+  var languages = 'English';
+
+  var skills = 'football';
 
   @override
   Widget build(BuildContext context) {
@@ -110,11 +143,48 @@ class _StudentProfileState extends State<StudentProfile> {
                             title: Text('Educations'),
                             expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Container(
-                                padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-                                color: Colors.white,
-                                child: Text(
-                                    education),
+                              Column(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+                                    color: Colors.white,
+                                    child: Text(
+                                        'School: '+(education_info.length == 0 ? "" : education_info[0]["data"]["school_name"] )
+                                    )
+                                    ,
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+                                    color: Colors.white,
+                                    child: Text(
+                                        'GPA: '+( education_info.length == 0 ? "" :education_info[0]["data"]["gpa"].toString() )
+                                    )
+                                    ,
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+                                    color: Colors.white,
+                                    child: Text(
+                                        'Department: '+ (education_info.length == 0 ? "" :education_info[0]["data"]["department"] )
+                                    )
+                                    ,
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+                                    color: Colors.white,
+                                    child: Text(
+                                        'Grade: '+( education_info.length == 0 ? "" :education_info[0]["data"]["grade"].toString() )
+                                    )
+                                    ,
+                                  ),
+                                  FlatButton(
+                                    color: Colors.purple[100],
+                                    child: Text("Edit Info"),
+                                    onPressed: () {
+                                      goToEdit('');
+                                    },
+                                  ),
+                                ],
                               )
                             ],
                           )
@@ -141,6 +211,7 @@ class _StudentProfileState extends State<StudentProfile> {
                           )
                       ),
                       Container(
+                          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                           decoration: BoxDecoration(
                               border: Border.all(
                                   width: 0.6,
@@ -164,6 +235,7 @@ class _StudentProfileState extends State<StudentProfile> {
                           )
                       ),
                       Container(
+                          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                           decoration: BoxDecoration(
                               border: Border.all(
                                   width: 0.6,
@@ -171,42 +243,75 @@ class _StudentProfileState extends State<StudentProfile> {
                               ),
                               color: Colors.white60
                           ),
-                          child: ExpansionTile(
-                            title: Text('Education'),
-                            expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-                                color: Colors.white,
-                                child: Text(
-                                    education),
-                              )
-                            ],
-                          )
+                        child: ExpansionTile(
+                          title: Text('Languages'),
+                          expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+                              color: Colors.white,
+                              child: Text(
+                                  languages),
+                            ),
+                          ],
+                        )
                       ),
                       Container(
-                        margin: EdgeInsets.fromLTRB(25, 40, 10, 0),
-                        child: Text(
-                          'Languages: English, Turkish, Kurdish',
-                          style: TextStyle(
-                              fontSize: 18
-                          ),
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 0.6,
+                                color: Colors.grey
+                            ),
+                            color: Colors.white60
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(25, 40, 10, 0),
-                        child: Text(
-                          'Skills: Football, Basketball, Formatting Computers',
-                          style: TextStyle(
-                              fontSize: 18
-                          ),
+                        child: ExpansionTile(
+                          title: Text('Skills'),
+                          expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+                              color: Colors.white,
+                              child: Text(
+                                  skills),
+                            ),
+                          ],
                         ),
-                      ),
+                      )
                     ],
                 ),
               ),
             ),
-
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints.tightFor(height: 80),
+                    child: ElevatedButton(
+                      child: Text('My Offers'),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return StudentHomepage(
+                                user_id: widget.studentid,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                          alignment: Alignment.center,
+                          primary: Colors.purple[300],
+                          textStyle: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       )

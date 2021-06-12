@@ -43,7 +43,7 @@
 
 
 					// check if the user is a student or company
-					$query = "SELECT * from company c INNER JOIN user ON user.user_id = c.company_id WHERE user.user_id = $user_id";
+					$query = "SELECT count(*) from company c INNER JOIN user ON user.user_id = c.company_id WHERE user.user_id = $user_id";
 					$result = mysqli_query($con, $query);
 					// $rows = array();
 					// while($r = mysqli_fetch_assoc($result)) 
@@ -53,7 +53,7 @@
 					$row_num = mysqli_num_rows($result);
 					if($row_num >= 1)
 					{
-						$myObj-> success = 1;
+						$myObj-> success == 1;
 						$_SESSION['user_type'] = 'company';
 						$myObj-> user_type = "company";
 						$myObj-> user_id = $user_id;

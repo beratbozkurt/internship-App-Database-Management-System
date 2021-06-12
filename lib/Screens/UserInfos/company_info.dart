@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/Login/login_screen.dart';
 import 'package:flutter_auth/Screens/SearchIntern/results_screen.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:http/http.dart' as http;
@@ -39,7 +43,8 @@ class searchScreen extends StatefulWidget {
 
   searchScreen({
     Key key,
-    @required this.email,
+    @required
+    this.email,
     this.password,
 
   }) : super(key: key);
@@ -55,7 +60,7 @@ class searchScreenState extends State<searchScreen>{
 
   Future signUp() async{
 
-    final response = await http.post(Uri.parse('http://192.168.1.106/database/signup.php'),body: {
+    final response = await http.post(Uri.parse('http://$ip/database/signup.php'),body: {
       "name": name.text,
       "user_type":"company",
       "company_desc":companyDescription.text,
@@ -64,7 +69,20 @@ class searchScreenState extends State<searchScreen>{
       "contact_mail":contactMail.text
     }
     );
-    print(response.body);
+
+    Map<String, dynamic> jsonString = jsonDecode(response.body);
+    print(jsonString);
+
+    if(jsonString['success'] == 1){
+      MaterialPageRoute(
+        builder: (context) {
+          return LoginScreen();
+        },
+      );
+    }
+    else{
+      log('COULD NOT SIGN UP');
+    }
   }
 
   @override
@@ -74,8 +92,8 @@ class searchScreenState extends State<searchScreen>{
           child: Column(
             children: <Widget>[
               Row(
-                  children: <Widget> [Container(
-
+                  children: <Widget> [
+                    Container(
                       width: 375,
                       padding: EdgeInsets.all(10.0),
                       child: TextField(

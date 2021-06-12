@@ -6,6 +6,8 @@ import 'package:flutter_auth/Screens/Profiles/student_profile.dart';
 import 'package:flutter_auth/Screens/Profiles/company_profile.dart';
 import 'package:http/http.dart' as http;
 
+import '../../constants.dart';
+
 class AllStudents extends StatefulWidget {
   final company_id;
 
@@ -78,7 +80,7 @@ class _AllStudentsState extends State<AllStudents> {
 
   Future getAllStudents() async{
     final response = await http.post(
-        Uri.parse('http://192.168.1.106/database/allStudents.php')
+        Uri.parse('http://$ip/database/allStudents.php')
  );
 
     //print(response.body);
@@ -92,7 +94,7 @@ class _AllStudentsState extends State<AllStudents> {
   }
   Future sendOffer(var student_id) async{
     final response = await http.post(
-        Uri.parse('http://192.168.1.106/database/create_offer.php'),body: {
+        Uri.parse('http://$ip/database/create_offer.php'),body: {
 
           "company_id":widget.company_id,
           "student_id":student_id

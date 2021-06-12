@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/Login/components/login_body.dart';
 import 'package:flutter_auth/Screens/Login/login_screen.dart';
 import 'package:flutter_auth/Screens/Signup/components/background.dart';
 import 'package:flutter_auth/Screens/UserInfos/company_info.dart';
@@ -11,12 +15,12 @@ import 'package:flutter_auth/constants.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 
-class Body extends StatefulWidget {
+class SignupBody extends StatefulWidget {
   @override
-  _BodyState createState() => _BodyState();
+  _SignupBodyState createState() => _SignupBodyState();
 }
 
-class _BodyState extends State<Body> {
+class _SignupBodyState extends State<SignupBody> {
   bool company = false;
   bool student = false;
   String email;
@@ -24,15 +28,19 @@ class _BodyState extends State<Body> {
 
   Future signUp() async{
 
-    final response = await http.post(Uri.parse('http://192.168.1.106/database/signup.php'),body: {
+    final response = await http.post(Uri.parse('http://$ip/database/signup.php'),body: {
       "email": email,
       "password":password,
       "user_type":company ? "company":"student"
     } );
+
     print(company ? "company":"student");
-    print(response.body);
+
+    log(response.body);
+    log('###################');
 
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -92,7 +100,8 @@ class _BodyState extends State<Body> {
               press: () {
                 if((company && student) || (!company && !student)){
                     print("wrong type of user");
-                }else {
+                }
+                else {
                   if (student) {
                     Navigator.push(
                       context,
